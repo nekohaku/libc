@@ -717,6 +717,8 @@ FF1
 FFDLY
 FF_CNT
 FF_MAX
+FICLONE
+FICLONERANGE
 FILENAME_MAX
 FIONCLEX
 FIONREAD
@@ -2909,6 +2911,7 @@ ff_rumble_effect
 ff_trigger
 fgetpos64
 fgetxattr
+file_clone_range
 flistxattr
 fmemopen
 fopen64

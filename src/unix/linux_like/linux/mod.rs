@@ -596,6 +596,13 @@ s! {
         pub nla_len: u16,
         pub nla_type: u16,
     }
+
+    pub struct file_clone_range {
+        pub src_fd: ::__s64,
+        pub src_offset: ::__u64,
+        pub src_length: ::__u64,
+        pub dest_offset: ::__u64,
+    }
 }
 
 s_no_extra_traits! {
@@ -2379,6 +2386,17 @@ pub const NFQA_CFG_F_MAX: ::c_int = 0x0020;
 pub const NFQA_SKB_CSUMNOTREADY: ::c_int = 0x0001;
 pub const NFQA_SKB_GSO: ::c_int = 0x0002;
 pub const NFQA_SKB_CSUM_NOTVERIFIED: ::c_int = 0x0004;
+
+// linux/fs.h
+
+#[cfg(not(target_arch = "mips"))]
+pub const FICLONE: ::c_ulong = 0x40049409;
+#[cfg(target_arch = "mips")]
+pub const FICLONE: ::c_ulong = 0x80092812;
+#[cfg(not(target_arch = "mips"))]
+pub const FICLONERANGE: ::c_ulong = 0x4020940D;
+#[cfg(target_arch = "mips")]
+pub const FICLONERANGE: ::c_ulong = 0x8041281A;
 
 // linux/genetlink.h
 

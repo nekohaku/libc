@@ -148,5 +148,5 @@ fn rustc_minor_nightly() -> Option<(u32, bool)> {
 }
 
 fn which_freebsd() -> Option<i32> {
-    Some(10)
+    Some(9)
 }

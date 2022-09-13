@@ -9,7 +9,7 @@ on:
 jobs:
   docker_linux_tier1:
     name: Docker Linux Tier1
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: true
       matrix:
@@ -29,7 +29,7 @@ jobs:
 
   macos:
     name: macOS
-    runs-on: macos-11
+    runs-on: macos-12
     strategy:
       fail-fast: true
       matrix:
@@ -48,7 +48,7 @@ jobs:
 
   windows:
     name: Windows
-    runs-on: windows-2019
+    runs-on: windows-2022
     env:
       OS: windows
     strategy:
@@ -84,7 +84,7 @@ jobs:
 
   style_check:
     name: Style check
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
@@ -98,7 +98,7 @@ jobs:
   docker_linux_tier2:
     name: Docker Linux Tier2
     needs: [docker_linux_tier1, style_check]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: true
       max-parallel: 12
@@ -157,7 +157,7 @@ jobs:
     if: ${{ false }} # This is currently broken
     name: Docker Linux Build-Std Targets
     needs: [docker_linux_tier1, style_check]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: true
       max-parallel: 12
@@ -179,7 +179,7 @@ jobs:
   docker_switch:
     name: Docker Switch
     needs: [docker_linux_tier1, style_check]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
@@ -193,7 +193,7 @@ jobs:
   build_channels_linux:
     name: Build Channels Linux
     needs: docker_linux_tier2
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       OS: linux
     strategy:
@@ -223,7 +223,7 @@ jobs:
   build_channels_macos:
     name: Build Channels macOS
     needs: macos
-    runs-on: macos-11
+    runs-on: macos-12
     env:
       OS: macos
     strategy:
@@ -252,7 +252,7 @@ jobs:
 
   build_channels_windows:
     name: Build Channels Windows
-    runs-on: windows-2019
+    runs-on: windows-2022
     env:
       OS: windows
     strategy:
@@ -277,32 +277,32 @@ jobs:
   semver_linux:
     if: ${{ false }} # This is currently broken
     name: Semver Linux
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     continue-on-error: true
     steps:
       - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         # Should update the semverver revision in semver.sh if we touch nightly ver.
-        run: TOOLCHAIN=nightly-2021-09-30 sh ./ci/install-rust.sh
+        run: TOOLCHAIN=nightly-2022-05-23 sh ./ci/install-rust.sh
       - name: Check breaking changes
         run: sh ci/semver.sh linux
 
   semver_macos:
     if: ${{ false }} # This is currently broken
     name: Semver macOS
-    runs-on: macos-11
+    runs-on: macos-12
     continue-on-error: true
     steps:
       - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         # Pin nightly version to make semverver compilable.
-        run: TOOLCHAIN=nightly-2021-09-30 sh ./ci/install-rust.sh
+        run: TOOLCHAIN=nightly-2022-05-23 sh ./ci/install-rust.sh
       - name: Check breaking changes
         run: sh ci/semver.sh macos
 
   docs:
     name: Generate documentation
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: docker_linux_tier2
     steps:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
@@ -323,7 +323,7 @@ jobs:
   end_success:
     name: bors build finished
     if: github.event.pusher.name == 'bors' && success()
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: [
       docker_linux_tier1,
       docker_linux_tier2,
@@ -345,7 +345,7 @@ jobs:
   end_failure:
     name: bors build finished
     if: github.event.pusher.name == 'bors' && (failure() || cancelled())
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: [
       docker_linux_tier1,
       docker_linux_tier2,

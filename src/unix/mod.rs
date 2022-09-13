@@ -708,7 +708,7 @@ extern "C" {
     #[cfg_attr(target_os = "netbsd", link_name = "__fstat50")]
     #[cfg_attr(
         all(target_os = "freebsd", any(freebsd11, freebsd10)),
-        link_name = "fstat@FBSD_1.0"
+        link_name = "fstat"
     )]
     pub fn fstat(fildes: ::c_int, buf: *mut stat) -> ::c_int;
 
@@ -721,7 +721,7 @@ extern "C" {
     #[cfg_attr(target_os = "netbsd", link_name = "__stat50")]
     #[cfg_attr(
         all(target_os = "freebsd", any(freebsd11, freebsd10)),
-        link_name = "stat@FBSD_1.0"
+        link_name = "stat"
     )]
     pub fn stat(path: *const c_char, buf: *mut stat) -> ::c_int;
 
